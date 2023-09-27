@@ -3,16 +3,16 @@ import { fileController } from "../controllers/file.controller";
 import multer from "multer";
 import { storage } from "../config/storage.config";
 import { authMiddleware } from "../middlewares/auth.middleware";
-import { check, body } from "express-validator";
+import { fileValidatorMiddleware } from "../middlewares/file-validator.middleware";
 const upload = multer({ storage: storage });
 //@ts-ignore
 export const fileRouter = new Router();
 
 fileRouter.post(
   "/upload",
-  [body("file", "file is not be empty").notEmpty()],
   authMiddleware,
   upload.single("file"),
+  fileValidatorMiddleware,
   fileController.uploadFile
 );
 fileRouter.get("/list", authMiddleware, fileController.getFilesList);
@@ -21,8 +21,8 @@ fileRouter.get("/:id", authMiddleware, fileController.getFile);
 fileRouter.get("/download/:id", authMiddleware, fileController.downloadFile);
 fileRouter.put(
   "/update/:id",
-  [body("file", "file is not be empty").notEmpty()],
   authMiddleware,
   upload.single("file"),
+  fileValidatorMiddleware,
   fileController.updateFile
 );
