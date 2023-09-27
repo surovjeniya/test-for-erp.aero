@@ -22,3 +22,30 @@
 - `PUT http://localhost:3155/file/update/:id` - обновление текущего документа на новый в базе и локальном хранилище. Поля `file`.
 
 Все эндпоинты, связанные с работой с файлами, а также `/info`, `/logout`, `/signin_newtoken`, требуют авторизации.
+
+
+# Technical Task | ERP.AERO | Node.js dev
+
+To start, you need to navigate to the `infra` folder and run the following command: `sh runner.sh prod`.
+
+## Main Endpoints
+
+### Authentication
+
+- POST [http://localhost:3155/auth/signin](http://localhost:3155/auth/signin) - request a bearer token using user_id and password.
+- POST [http://localhost:3155/auth/signup](http://localhost:3155/auth/signup) - register a new user. Fields: user_id (phone number or email) and password.
+- GET [http://localhost:3155/auth/info](http://localhost:3155/auth/info) - returns the user's ID.
+- GET [http://localhost:3155/auth/logout](http://localhost:3155/auth/logout) - log out.
+- POST [http://localhost:3155/auth/signin/new_token](http://localhost:3155/auth/signin/new_token) - refresh the bearer token using a refresh token.
+
+### File Operations
+
+- POST [http://localhost:3155/file/upload](http://localhost:3155/file/upload) - add a new file to the system and record file parameters in the database: name, extension, MIME type, size, upload date. Fields: file.
+- GET [http://localhost:3155/file/list?list_size=10&page=1](http://localhost:3155/file/list?list_size=10&page=1) - retrieve a list of files and their parameters from the database using pagination with a page size specified in the `list_size` parameter (default is 10 records per page if the parameter is empty). The page number is specified in the `page` parameter (default is 1 if not specified).
+- DELETE [http://localhost:3155/file/delete/:id](http://localhost:3155/file/delete/:id) - delete a document from the database and local storage.
+- GET [http://localhost:3155/file/:id](http://localhost:3155/file/:id) - retrieve information about the selected file.
+- GET [http://localhost:3155/file/download/:id](http://localhost:3155/file/download/:id) - download a specific file.
+- PUT [http://localhost:3155/file/update/:id](http://localhost:3155/file/update/:id) - update the current document with a new one in the database and local storage. Fields: file.
+
+All endpoints related to file operations, as well as `/info`, `/logout`, `/signin_newtoken`, require authentication.
+
