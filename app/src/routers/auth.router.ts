@@ -11,7 +11,7 @@ authRouter.get("/info", authMiddleware, authController.info);
 authRouter.post(
   "/signup",
   [
-    check("user_id", "id is not be empty").notEmpty().isString(),
+    check("user_id", "user_id is not be empty").notEmpty().isString(),
     check("password", "password is not be empty").notEmpty().isString(),
   ],
   authController.signup

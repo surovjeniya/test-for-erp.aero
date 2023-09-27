@@ -1,10 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { fileService } from "../services/file.service";
 import { AuthUserRequest } from "../interfaces/auth-user-request.interface";
+import { validationResult } from "express-validator";
+import { ApiError } from "../common/api-error";
 
 class FileController {
   async uploadFile(req: AuthUserRequest, res: Response, next: NextFunction) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        //@ts-ignore
+        throw ApiError.BadRequest("File upload error", errors);
+      }
       const uploadedFile = await fileService.uploadFile(
         req.file as Express.Multer.File,
         req.user.id
@@ -73,6 +80,11 @@ class FileController {
 
   async updateFile(req: AuthUserRequest, res: Response, next: NextFunction) {
     try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        //@ts-ignore
+        throw ApiError.BadRequest("File upload error", errors);
+      }
       const updateResult = await fileService.updateFile(
         +req.params.id,
         req.user.id,
